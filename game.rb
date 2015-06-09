@@ -36,7 +36,7 @@ class Game
     create_player_one(args[:name_one], args[:weapon_one])
     assign_player_two_robot_or_human
     use_spock_check_one
-    determine_game_end
+#    determine_game_end
   end
 
   # This method creates a new player object in the Player class and stores it as
@@ -76,19 +76,15 @@ class Game
     @best_of = rounds / 2
   end
 
-  # Continually runs the game until a single player wins the majority of rounds.
-  #
-  # First runs the check_who_wins for the initial player inputs.
-  # While the scores for player_one and player_two are both less than the
-  #   best_of float, this method calls three other methods.
-  def determine_game_end
-    check_who_wins
-    while (player_one.score <= best_of) && (player_two.score <= best_of)
-      redefine_player_weapons
-      check_who_wins
-      announce_winner
-    end
-  end
+  # # Continually runs the game until a single player wins the majority of rounds.
+  # #
+  # # Returns nothing.
+  # def determine_game_end
+  #   while (player_one.score <= best_of) && (player_two.score <= best_of)
+  #     redefine_player_weapons
+  #     check_who_wins
+  #   end
+  # end
 
   # This method asks each player for their new weapon choices for the next round
   #   and redefines the weapon attributes for player_one. It then runs the
@@ -96,7 +92,7 @@ class Game
   def redefine_player_weapons
     player_one.weapon = gets.chomp.downcase
     use_spock_check_one
-    redefine_player_two_weapon
+#    redefine_player_two_weapon
   end
 
   # Checks if the computer is playing, and if so, redefines the computer's
