@@ -57,16 +57,12 @@ class Game
   #   the game prints results of the round.
   # Checks to see if weapon_one is a key in the
   #   choices hash that matches the value of weapon_two. If it matches the hash,
-  #   then that means name_one wins the game. Puts the results.
+  #   then that means name_one wins the game.
   # Adds one to the score attribute of the winner.
   def check_who_wins
-    if player_one.weapon == player_two.weapon
-      puts "Tie game!"
-    elsif (choices[player_one.weapon][0] == player_two.weapon) || choices[player_one.weapon][1] == player_two.weapon
-  	   puts "#{player_one.name} wins this round!"
+    if (choices[player_one.weapon][0] == player_two.weapon) || choices[player_one.weapon][1] == player_two.weapon
        player_one.score_update
     else
-      puts "#{player_two.name} wins this round!"
       player_two.score_update
     end
   end
@@ -98,8 +94,6 @@ class Game
   #   and redefines the weapon attributes for player_one. It then runs the
   #   valid_input_check_one and the redefine_player_two_weapon methods.
   def redefine_player_weapons
-    puts "No winner yet. On to the next round!"
-    puts "#{player_one.name}, make your move!"
     player_one.weapon = gets.chomp.downcase
     use_spock_check_one
     redefine_player_two_weapon
@@ -112,23 +106,10 @@ class Game
   def redefine_player_two_weapon
     if player_two.name == "Computer"
       player_two.weapon = player_two.sample_weapon_choice
-      puts "The computer chooses #{player_two.weapon}."
+      return player_two.name player_two.weapon
     else
-      puts "#{player_two.name}, your turn."
       player_two.weapon = gets.chomp.downcase
       use_spock_check_two
-    end
-  end
-
-  # An if statement used to check the score attributes of both players.
-  #   If one of those values is greater than or equal to the best_of float, a
-  #   winning statement is given and the loop ends.
-  def announce_winner
-    if player_one.score >= (best_of)
-      puts "#{player_one.name} wins the game!"
-    elsif player_two.score >= (best_of)
-      puts "#{player_two.name} wins the game!"
-    else
     end
   end
 
@@ -141,7 +122,6 @@ class Game
   #
   def valid_input_check_one
     while traditional_choices.include?(player_one.weapon) == false
-      puts "#{player_one.name}, only choose 'rock', 'paper', or 'scissors'."
       player_one.weapon = gets.chomp.downcase
     end
   end
@@ -155,8 +135,6 @@ class Game
   #
   def valid_input_check_two
     while traditional_choices.include?(player_two.weapon) == false
-      #(player_two.weapon != "rock") && (player_two.weapon != "paper") && (player_two.weapon != "scissors")
-      puts "#{player_two.name}, only choose 'rock', 'paper', or 'scissors'."
       player_two.weapon = gets.chomp.downcase
     end
   end
@@ -164,7 +142,6 @@ class Game
   # Does the valid input check to include lizard-spock options for player_one
   def valid_input_check_one_spock
     while spock_choices.include?(player_one.weapon) == false
-      puts "#{player_one.name}, only choose 'rock', 'paper', 'scissors', 'lizard', or 'spock'."
       player_one.weapon = gets.chomp.downcase
     end
   end
@@ -172,7 +149,6 @@ class Game
   # Does the valid input check to include lizard-spock options for player_two
   def valid_input_check_two_spock
     while spock_choices.include?(player_two.weapon) == false
-      puts "#{player_two.name}, only choose 'rock', 'paper', 'scissors', 'lizard', or 'spock'."
       player_two.weapon = gets.chomp.downcase
     end
   end
@@ -185,7 +161,7 @@ class Game
   def assign_player_two_robot_or_human
     if name_two == "Computer"
       @player_two = ComputerPlayer.new(spock)
-      puts "The computer chooses #{player_two.weapon}."
+      return player_two player_two.weapon
     else
       create_player_two(name_two, weapon_two)
       use_spock_check_two

@@ -32,3 +32,53 @@ else
   weapon_two = gets.chomp.downcase
   game = Game.new(name_one: name_one, name_two: name_two, weapon_one: weapon_one, weapon_two: weapon_two, rounds: rounds, spock: spock)
 end
+
+if player_one.weapon == player_two.weapon
+  puts "Tie game!"
+  while (player_one.score <= best_of) && (player_two.score <= best_of)
+    puts "No winner yet. On to the next round!"
+    puts "#{player_one.name}, make your move!"
+  end
+elsif (choices[player_one.weapon][0] == player_two.weapon) || choices[player_one.weapon][1] == player_two.weapon
+   puts "#{player_one.name} wins this round!"
+   while (player_one.score <= best_of) && (player_two.score <= best_of)
+     puts "No winner yet. On to the next round!"
+     puts "#{player_one.name}, make your move!"
+   end
+else
+  puts "#{player_two.name} wins this round!"
+  while (player_one.score <= best_of) && (player_two.score <= best_of)
+    puts "No winner yet. On to the next round!"
+    puts "#{player_one.name}, make your move!"
+  end
+end
+
+if player_two.name != "Computer"
+  while (player_one.score <= best_of) && (player_two.score <= best_of)
+    puts "No winner yet. On to the next round!"
+    puts "#{player_two.name}, your turn!"
+  end
+end
+
+if game.player_one.score >= (game.best_of)
+  puts "#{game.player_one.name} wins the game!"
+elsif game.player_two.score >= (game.best_of)
+  puts "#{game.player_two.name} wins the game!"
+else
+end
+
+if spock != "spock"
+  while game.traditional_choices.include?(game.player_one.weapon) == false
+    puts "#{game.player_one.name}, only choose 'rock', 'paper', or 'scissors'."
+  end
+  while game.traditional_choices.include?(game.player_two.weapon) ==
+    puts "#{game.player_two.name}, only choose 'rock', 'paper', or 'scissors'."
+  end
+else
+  while spock_choices.include?(game.player_one.weapon) == false
+    puts "#{game.player_one.name}, only choose 'rock', 'paper', 'scissors', 'lizard', or 'spock'."
+  end
+  while spock_choices.include?(game.player_two.weapon) == false
+    puts "#{game.player_two.name}, only choose 'rock', 'paper', 'scissors', 'lizard', or 'spock'."
+  end
+end
