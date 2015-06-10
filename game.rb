@@ -21,7 +21,7 @@ class Game
   # Creates the choices hash, with a weapon selection as the key and the losing
   #   corresponding weapon as its value.
   # Creates choices for either traditional rps or lizard-spock as arrays.
-  # Runs five methods when the game is started.
+  # Runs three methods when the game object is created.
   def initialize(args = {})
     options = {name_one: "", name_two: "", weapon_one: "", weapon_two: "", rounds: 1, spock: ""}
     args = options.merge(args)
@@ -39,19 +39,29 @@ class Game
 
   # This method creates a new player object in the Player class and stores it as
   #   an instance variable called player_one.
+  #
+  # name - String
+  # weapon - String
+  #
+  # Returns the player_one Object.
   def create_player_one(name, weapon)
     @player_one = Player.new(name, weapon)
   end
 
   # This method creates a new player object in the Player class and stores it as
   #   an instance variable for player_two
+  #
+  # name - String
+  # weapon - String
+  #
+  # Returns the player_two Object.
   def create_player_two(name, weapon)
     @player_two = Player.new(name, weapon)
   end
 
   # Assigns player_two as either a computer player or a human player
   #
-  # Returns player_two ComputerPlayer or Player object. If player object, also
+  # Returns player_two ComputerPlayer or Player Object. If player Object, also
   #   returns player_two.weapon
   def assign_player_two_robot_or_human
     if name_two == "Computer"
@@ -61,14 +71,10 @@ class Game
     end
   end
 
-  # Determines who wins the game.
+  # Determines who wins the game by checking weapons against the choices Hash.
+  #   Adds a point to the winning player's score attribute.
   #
-  # Uses if-else statements to check if the two choices are the same. If so,
-  #   the game prints results of the round.
-  # Checks to see if weapon_one is a key in the
-  #   choices hash that matches the value of weapon_two. If it matches the hash,
-  #   then that means name_one wins the game.
-  # Adds one to the score attribute of the winner.
+  # Returns the winning player's score attribute - Integer
   def check_who_wins
     if (choices[player_one.weapon][0] == player_two.weapon) || choices[player_one.weapon][1] == player_two.weapon
        player_one.score_update
@@ -79,9 +85,9 @@ class Game
 
   # Determines how many matches a player must win.
   #
-  # rounds - integer input by the user
+  # rounds - Integer input by the user
   #
-  # Creates the best_of attribute by taking rounds divided by two
+  # Returns the best_of attribute -  Integer
   def determine_best_of(rounds)
     @best_of = rounds / 2
   end

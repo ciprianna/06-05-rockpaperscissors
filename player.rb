@@ -15,6 +15,8 @@ class Player
   end
 
   # Updates the score by adding one to the instance variable
+  #
+  # Returns the score instance variable - Integer
   def score_update
     @score += 1
   end
