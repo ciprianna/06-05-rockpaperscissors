@@ -35,8 +35,6 @@ class Game
     determine_best_of(args[:rounds])
     create_player_one(args[:name_one], args[:weapon_one])
     assign_player_two_robot_or_human
-    use_spock_check_one
-#    determine_game_end
   end
 
   # This method creates a new player object in the Player class and stores it as
@@ -49,6 +47,18 @@ class Game
   #   an instance variable for player_two
   def create_player_two(name, weapon)
     @player_two = Player.new(name, weapon)
+  end
+
+  # Assigns player_two as either a computer player or a human player
+  #
+  # Returns player_two ComputerPlayer or Player object. If player object, also
+  #   returns player_two.weapon
+  def assign_player_two_robot_or_human
+    if name_two == "Computer"
+      @player_two = ComputerPlayer.new(spock)
+    else
+      create_player_two(name_two, weapon_two)
+    end
   end
 
   # Determines who wins the game.
@@ -76,117 +86,13 @@ class Game
     @best_of = rounds / 2
   end
 
-  # # Continually runs the game until a single player wins the majority of rounds.
-  # #
-  # # Returns nothing.
-  # def determine_game_end
-  #   while (player_one.score <= best_of) && (player_two.score <= best_of)
-  #     redefine_player_weapons
-  #     check_who_wins
-  #   end
-  # end
-
-  # This method asks each player for their new weapon choices for the next round
-  #   and redefines the weapon attributes for player_one. It then runs the
-  #   valid_input_check_one and the redefine_player_two_weapon methods.
-  def redefine_player_weapons
-    player_one.weapon = gets.chomp.downcase
-    use_spock_check_one
-#    redefine_player_two_weapon
-  end
-
   # Checks if the computer is playing, and if so, redefines the computer's
   #   weapon attribute using the ComputerPlayer's sample_weapon_choice method.
-  # If a human player exists, it asks the player for their choice and redefines
-  #   player_two's weapon attribute.
-  def redefine_player_two_weapon
+  #
+  # Returns player_two.weapon - String.
+  def redefine_computer_weapon
     if player_two.name == "Computer"
       player_two.weapon = player_two.sample_weapon_choice
-      return player_two.name player_two.weapon
-    else
-      player_two.weapon = gets.chomp.downcase
-      use_spock_check_two
-    end
-  end
-
-  # Checks to see if the weapon choice is a valid input: either rock, paper,
-  #   or scissors.
-  #
-  # While loop runs until a valid input is given. Each time an invalid input is
-  #   given, it tells the user the options and asks them to redefine their
-  #   choice and reassigns the weapon_one instance variable as the new value.
-  #
-  def valid_input_check_one
-    while traditional_choices.include?(player_one.weapon) == false
-      player_one.weapon = gets.chomp.downcase
-    end
-  end
-
-  # Checks to see if the weapon choice is a valid input: either rock, paper,
-  #   or scissors.
-  #
-  # While loop runs until a valid input is given. Each time an invalid input is
-  #   given, it tells the user the options and asks them to redefine their
-  #   choice and reassigns the weapon_two instance variable as the new value.
-  #
-  def valid_input_check_two
-    while traditional_choices.include?(player_two.weapon) == false
-      player_two.weapon = gets.chomp.downcase
-    end
-  end
-
-  # Does the valid input check to include lizard-spock options for player_one
-  def valid_input_check_one_spock
-    while spock_choices.include?(player_one.weapon) == false
-      player_one.weapon = gets.chomp.downcase
-    end
-  end
-
-  # Does the valid input check to include lizard-spock options for player_two
-  def valid_input_check_two_spock
-    while spock_choices.include?(player_two.weapon) == false
-      player_two.weapon = gets.chomp.downcase
-    end
-  end
-
-  # Assigns player_two as either a computer player or a human player
-  #
-  # Uses an if-else statement to either create a new ComputerPlayer Class object
-  #   or run the create_player_two method.
-  # Puts a statement to show what the computer's weapon is in the first round.
-  def assign_player_two_robot_or_human
-    if name_two == "Computer"
-      @player_two = ComputerPlayer.new(spock)
-      return player_two player_two.weapon
-    else
-      create_player_two(name_two, weapon_two)
-      use_spock_check_two
-    end
-  end
-
-  # Determines which validity check to use for player_one
-  #
-  # Uses and if-else statement to determine if the spock game is being used or
-  #   not. If so, it uses the valid check method for spock. If not, it uses the
-  #   traditional valid input check.
-  def use_spock_check_one
-    if spock == "spock"
-      valid_input_check_one_spock
-    else
-      valid_input_check_one
-    end
-  end
-
-  # Determines which validity check to use for player_two
-  #
-  # Uses and if-else statement to determine if the spock game is being used or
-  #   not. If so, it uses the valid check method for spock. If not, it uses the
-  #   traditional valid input check.
-  def use_spock_check_two
-    if spock == "spock"
-      valid_input_check_two_spock
-    else
-      valid_input_check_two
     end
   end
 

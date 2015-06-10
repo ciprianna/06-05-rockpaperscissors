@@ -27,90 +27,157 @@ weapon_one = gets.chomp.downcase
 #   new game object passing all arguments.
 if name_two == "Computer"
   game = Game.new(name_one: name_one, name_two: name_two, weapon_one: weapon_one, rounds: rounds, spock: spock)
+  puts "The computer chose #{game.player_two.weapon}."
+  if game.spock != 'spock'
+    while game.traditional_choices.include?(game.player_one.weapon) == false
+      puts "#{game.player_one.name}, only choose 'rock', 'paper', or 'scissors'."
+      game.player_one.weapon = gets.chomp
+    end
+  else
+    while game.spock_choices.include?(game.player_one.weapon) == false
+      puts "#{game.player_one.name}, only choose 'rock', 'paper', 'scissors', 'lizard', or 'spock'."
+      game.player_one.weapon = gets.chomp
+    end
+  end
 else
   puts "#{name_two}, your turn."
   weapon_two = gets.chomp.downcase
   game = Game.new(name_one: name_one, name_two: name_two, weapon_one: weapon_one, weapon_two: weapon_two, rounds: rounds, spock: spock)
-end
-
-if game.player_one.weapon == game.player_two.weapon
-  puts "Tie game!"
-  while (game.player_one.score <= game.best_of) && (game.player_two.score <= game.best_of)
-    puts "No winner yet. On to the next round!"
-    puts "#{game.player_one.name}, make your move!"
-    game.check_who_wins
-    game.redefine_player_weapons
-    puts "#{game.player_two.name}, your turn."
-    game.redefine_player_two_weapon
+  if game.spock != 'spock'
+    while game.traditional_choices.include?(game.player_one.weapon) == false
+      puts "#{game.player_one.name}, only choose 'rock', 'paper', or 'scissors'."
+      game.player_one.weapon = gets.chomp
+    end
+  else
+    while game.spock_choices.include?(game.player_one.weapon) == false
+      puts "#{game.player_one.name}, only choose 'rock', 'paper', 'scissors', 'lizard', or 'spock'."
+      game.player_one.weapon = gets.chomp
+    end
   end
-elsif (game.choices[game.player_one.weapon][0] == game.player_two.weapon) || game.choices[game.player_one.weapon][1] == game.player_two.weapon
-   puts "#{game.player_one.name} wins this round!"
-   while (game.player_one.score <= game.best_of) && (game.player_two.score <= game.best_of)
-     puts "No winner yet. On to the next round!"
-     puts "#{game.player_one.name}, make your move!"
-     game.check_who_wins
-     game.redefine_player_weapons
-     puts "#{game.player_two.name}, your turn."
-     game.redefine_player_two_weapon
-   end
-else
-  puts "#{game.player_two.name} wins this round!"
-  while (game.player_one.score <= game.best_of) && (game.player_two.score <= game.best_of)
-    puts "No winner yet. On to the next round!"
-    puts "#{game.player_one.name}, make your move!"
-    game.check_who_wins
-    game.redefine_player_weapons
-    puts "#{game.player_two.name}, your turn."
-    game.redefine_player_two_weapon
+
+  if game.spock != 'spock'
+    while game.traditional_choices.include?(game.player_two.weapon) == false
+      puts "#{game.player_two.name}, only choose 'rock', 'paper', or 'scissors'."
+      game.player_two.weapon = gets.chomp
+    end
+  else
+    while game.spock_choices.include?(game.player_two.weapon) == false
+      puts "#{game.player_two.name}, only choose 'rock', 'paper', 'scissors', 'lizard', or 'spock'."
+      game.player_two.weapon = gets.chomp
+    end
   end
 end
 
 while (game.player_one.score <= game.best_of) && (game.player_two.score <= game.best_of)
   if game.player_one.weapon == game.player_two.weapon
     puts "Tie game!"
-    while (game.player_one.score <= game.best_of) && (game.player_two.score <= game.best_of)
+    if (game.player_one.score <= game.best_of) && (game.player_two.score <= game.best_of)
       puts "No winner yet. On to the next round!"
       puts "#{game.player_one.name}, make your move!"
-      game.check_who_wins
-      game.redefine_player_weapons
+      game.player_one.weapon = gets.chomp
+        if game.spock != 'spock'
+          while game.traditional_choices.include?(game.player_one.weapon) == false
+            puts "#{game.player_one.name}, only choose 'rock', 'paper', or 'scissors'."
+            game.player_one.weapon = gets.chomp
+          end
+        else
+          while game.spock_choices.include?(game.player_one.weapon) == false
+            puts "#{game.player_one.name}, only choose 'rock', 'paper', 'scissors', 'lizard', or 'spock'."
+            game.player_one.weapon = gets.chomp
+          end
+        end
+      if game.player_two.name != "Computer"
       puts "#{game.player_two.name}, your turn."
-      game.redefine_player_two_weapon
+        game.player_two.weapon = gets.chomp
+          if game.spock != 'spock'
+            while game.traditional_choices.include?(game.player_two.weapon) == false
+              puts "#{game.player_two.name}, only choose 'rock', 'paper', or 'scissors'."
+              game.player_two.weapon = gets.chomp
+            end
+          else
+            while game.spock_choices.include?(game.player_two.weapon) == false
+              puts "#{game.player_two.name}, only choose 'rock', 'paper', 'scissors', 'lizard', or 'spock'."
+              game.player_two.weapon = gets.chomp
+            end
+          end
+        else
+          game.redefine_computer_weapon
+          puts "The computer chose #{game.player_two.weapon}."
+        end
     end
   elsif (game.choices[game.player_one.weapon][0] == game.player_two.weapon) || game.choices[game.player_one.weapon][1] == game.player_two.weapon
      puts "#{game.player_one.name} wins this round!"
-     while (game.player_one.score <= game.best_of) && (game.player_two.score <= game.best_of)
+     game.check_who_wins
+     if (game.player_one.score <= game.best_of) && (game.player_two.score <= game.best_of)
        puts "No winner yet. On to the next round!"
        puts "#{game.player_one.name}, make your move!"
-       game.check_who_wins
-       game.redefine_player_weapons
-       puts "#{game.player_two.name}, your turn."
-       game.redefine_player_two_weapon
+       game.player_one.weapon = gets.chomp
+         if game.spock != 'spock'
+           while game.traditional_choices.include?(game.player_one.weapon) == false
+             puts "#{game.player_one.name}, only choose 'rock', 'paper', or 'scissors'."
+             game.player_one.weapon = gets.chomp
+           end
+         else
+           while game.spock_choices.include?(game.player_one.weapon) == false
+             puts "#{game.player_one.name}, only choose 'rock', 'paper', 'scissors', 'lizard', or 'spock'."
+             game.player_one.weapon = gets.chomp
+           end
+         end
+         if game.player_two.name != "Computer"
+           puts "#{game.player_two.name}, your turn."
+           game.player_two.weapon = gets.chomp
+             if game.spock != 'spock'
+               while game.traditional_choices.include?(game.player_two.weapon) == false
+                 puts "#{game.player_two.name}, only choose 'rock', 'paper', or 'scissors'."
+                 game.player_two.weapon = gets.chomp
+               end
+             else
+               while game.spock_choices.include?(game.player_two.weapon) == false
+                 puts "#{game.player_two.name}, only choose 'rock', 'paper', 'scissors', 'lizard', or 'spock'."
+                 game.player_two.weapon = gets.chomp
+               end
+             end
+          else
+            game.redefine_computer_weapon
+            puts "The computer chose #{game.player_two.weapon}."
+          end
      end
   else
     puts "#{game.player_two.name} wins this round!"
-    while (game.player_one.score <= game.best_of) && (game.player_two.score <= game.best_of)
+    game.check_who_wins
+    if (game.player_one.score <= game.best_of) && (game.player_two.score <= game.best_of)
       puts "No winner yet. On to the next round!"
       puts "#{game.player_one.name}, make your move!"
-      game.check_who_wins
-      game.redefine_player_weapons
-      puts "#{game.player_two.name}, your turn."
-      game.redefine_player_two_weapon
-    end
-  end
-
-  if spock != "spock"
-    while game.traditional_choices.include?(game.player_one.weapon) == false
-      puts "#{game.player_one.name}, only choose 'rock', 'paper', or 'scissors'."
-    end
-    while game.traditional_choices.include?(game.player_two.weapon) == false
-      puts "#{game.player_two.name}, only choose 'rock', 'paper', or 'scissors'."
-    end
-  else
-    while game.spock_choices.include?(game.player_one.weapon) == false
-      puts "#{game.player_one.name}, only choose 'rock', 'paper', 'scissors', 'lizard', or 'spock'."
-    end
-    while game.spock_choices.include?(game.player_two.weapon) == false
-      puts "#{game.player_two.name}, only choose 'rock', 'paper', 'scissors', 'lizard', or 'spock'."
+      game.player_one.weapon = gets.chomp
+        if game.spock != 'spock'
+          while game.traditional_choices.include?(game.player_one.weapon) == false
+            puts "#{game.player_one.name}, only choose 'rock', 'paper', or 'scissors'."
+            game.player_one.weapon = gets.chomp
+          end
+        else
+          while game.spock_choices.include?(game.player_one.weapon) == false
+            puts "#{game.player_one.name}, only choose 'rock', 'paper', 'scissors', 'lizard', or 'spock'."
+            game.player_one.weapon = gets.chomp
+          end
+        end
+        if game.player_two.name != "Computer"
+          puts "#{game.player_two.name}, your turn."
+          game.player_two.weapon = gets.chomp
+            if game.spock != 'spock'
+              while game.traditional_choices.include?(game.player_two.weapon) == false
+                puts "#{game.player_two.name}, only choose 'rock', 'paper', or 'scissors'."
+                game.player_two.weapon = gets.chomp
+              end
+            else
+              while game.spock_choices.include?(game.player_two.weapon) == false
+                puts "#{game.player_two.name}, only choose 'rock', 'paper', 'scissors', 'lizard', or 'spock'."
+                game.player_two.weapon = gets.chomp
+              end
+            end
+        else
+          game.redefine_computer_weapon
+          puts "The computer chose #{game.player_two.weapon}."
+        end
     end
   end
 
