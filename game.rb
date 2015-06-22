@@ -4,7 +4,7 @@ require "./computer_player.rb"
 
 class Game
 
-  attr_accessor :best_of, :choices, :player_one, :player_two, :rounds, :name_two, :weapon_two, :spock, :traditional_choices, :spock_choices
+  attr_accessor :best_of, :choices, :player_one, :player_two, :rounds, :name_two, :weapon_two, :spock, :traditional_choices, :spock_choices, :winner
 
   # The initialize method takes in five optional attributes from the user. It
   #   first creates an empty hash, then sets optional arguments to be passed.
@@ -77,8 +77,10 @@ class Game
   # Returns the winning player's score attribute - Integer
   def check_who_wins
     if (choices[player_one.weapon][0] == player_two.weapon) || choices[player_one.weapon][1] == player_two.weapon
+       @winner = player_one.name
        player_one.score_update
     else
+      @winner = player_one.name
       player_two.score_update
     end
   end
